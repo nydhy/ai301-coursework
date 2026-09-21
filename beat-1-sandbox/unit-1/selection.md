@@ -20,38 +20,11 @@ https://github.com/codepath/pathreview-ai301-fa26-s3/issues/67
 **Verdict output**
 
 ```
-Ranked read-out
-
-Accepted, in fit order:
-
-1. #72 — `verify_password` raises `UnknownHashError` on malformed stored hashes instead
-   of returning False. Fit reason: cleanest scope of the three (named files, 1-2h
-   estimate, single fix), both preferred checks pass (good-first-issue label,
-   maintainer-filed), directly hits core Python security-library usage (passlib) — best
-   low-risk entry point for building Python fluency.
-2. #67 — Review creation does not verify profile ownership (tier-2). Fit reason: a real
-   authorization/service-layer bug requiring tracing request flow through the service
-   layer — meatier Python engineering matching the stated appetite for tier-2, though it
-   lacks the good-first-issue label.
-3. #65 — review_service unit tests misconfigure async mocks, 13/19 failing. Fit reason:
-   solid Python async/pytest-mocking practice (AsyncMock vs MagicMock), maintainer-filed,
-   but narrower in scope than #67 and missing the good-first-issue label.
-
-Rejected: none — all three cleared every required check.
-
-{
-  "item": "https://github.com/codepath/pathreview-ai301-fa26-s3/issues/67",
-  "checks": [
-    {"name": "Maintainer alive", "grade": "pass", "evidence": "last default-branch commit 2026-09-16"},
-    {"name": "Repo in use", "grade": "pass", "evidence": "not archived; last push 2026-09-16"},
-    {"name": "Scope fits a newcomer", "grade": "pass", "evidence": "single bounded bug: create_review ignores caller-supplied user id, one fix needed in the service layer"},
-    {"name": "Nobody already on it", "grade": "pass", "evidence": "assignees: none; linked PRs: none; comments: none"},
-    {"name": "Contribution/AI policy allows this workflow", "grade": "pass", "evidence": "docs/CONTRIBUTING.md has no AI-related statement"},
-    {"name": "Good-first-issue label present", "grade": "fail", "evidence": "labels are bug, tier-2 only; no good-first-issue label"},
-    {"name": "Maintainer filed or endorsed the issue", "grade": "pass", "evidence": "opened by Aburke225"}
-  ],
-  "verdict": "accept"
-}
+[
+  {"item":"https://github.com/codepath/pathreview-ai301-fa26-s3/issues/72","checks":[{"name":"Maintainer alive","grade":"pass","evidence":"last commit 2026-09-16T21:42:18Z, within 90 days"},{"name":"Repo in use","grade":"pass","evidence":"archived: false; last push 2026-09-16T21:50:20Z"},{"name":"Scope fits a newcomer","grade":"pass","evidence":"single bounded bug fix in core/security.py + test_security.py, 1-2h estimate"},{"name":"Nobody already on it","grade":"pass","evidence":"assignees: []; comments: none; linked PRs: 0"},{"name":"Contribution/AI policy allows this workflow","grade":"pass","evidence":"docs/CONTRIBUTING.md exists, no AI-use ban"},{"name":"Good-first-issue label present","grade":"pass","evidence":"labels: ['bug','good first issue','api','tier-1']"},{"name":"Maintainer filed or endorsed the issue","grade":"pass","evidence":"opened by Aburke225, COLLABORATOR"}],"verdict":"accept"},
+  {"item":"https://github.com/codepath/pathreview-ai301-fa26-s3/issues/67","checks":[{"name":"Maintainer alive","grade":"pass","evidence":"last commit 2026-09-16T21:42:18Z, within 90 days"},{"name":"Repo in use","grade":"pass","evidence":"archived: false; last push 2026-09-16T21:50:20Z"},{"name":"Scope fits a newcomer","grade":"pass","evidence":"single bounded fix: create_review() must verify profile.user_id against caller"},{"name":"Nobody already on it","grade":"pass","evidence":"assignees: []; comments: none (0 found); linked PRs: 0"},{"name":"Contribution/AI policy allows this workflow","grade":"pass","evidence":"docs/CONTRIBUTING.md exists, no AI-use ban"},{"name":"Good-first-issue label present","grade":"fail","evidence":"labels: ['bug','tier-2']"},{"name":"Maintainer filed or endorsed the issue","grade":"pass","evidence":"opened by Aburke225, COLLABORATOR"}],"verdict":"accept"},
+  {"item":"https://github.com/codepath/pathreview-ai301-fa26-s3/issues/65","checks":[{"name":"Maintainer alive","grade":"pass","evidence":"last commit 2026-09-16T21:42:18Z, within 90 days"},{"name":"Repo in use","grade":"pass","evidence":"archived: false; last push 2026-09-16T21:50:20Z"},{"name":"Scope fits a newcomer","grade":"pass","evidence":"single bounded test-mock rework, clear repro: 13 failed, 6 passed"},{"name":"Nobody already on it","grade":"pass","evidence":"assignees: []; comments: none; linked PRs: 0"},{"name":"Contribution/AI policy allows this workflow","grade":"pass","evidence":"docs/CONTRIBUTING.md exists, no AI-use ban"},{"name":"Good-first-issue label present","grade":"fail","evidence":"labels: ['bug','tests','tier-1']"},{"name":"Maintainer filed or endorsed the issue","grade":"pass","evidence":"opened by Aburke225, COLLABORATOR"}],"verdict":"accept"}
+]
 ```
 
 **The verdict must record `accept` for this issue.** Choose an issue your own skill
@@ -98,21 +71,17 @@ false-accepts on `issue-15`/`issue-20` that the same clause was written to catch
 
 **Check rationale**
 
-From `rubric.md`, the "Scope fits a newcomer" row's pass condition, as currently
-written: "Fail when any of: (a) the issue is explicitly structured as a checklist/
-tracking list of separate items meant to be claimed and shipped as separate PRs by
-separate people; ... (d) the issue has 2 or more closed/unmerged linked PRs recorded
-against it, showing prior contributors already tried and abandoned it — a sign of real
-unresolved difficulty behind a friendly label; (e) the issue asks for a new user-facing
-feature or capability (not a bug fix, not a docs/content task) and no Owner/Member/
-Collaborator anywhere in the thread has endorsed building it, and it was not opened by a
-maintainer — an un-endorsed feature request is a product decision nobody has made yet".
-Clauses (d) and (e) were added after the first full run scored the `scope` category
-2/4: `issue-15` (years of design debate plus two closed, abandoned linked PRs) and
-`issue-20` (an unendorsed feature request opened by a bot, with a hidden product
-decision) were both wrongly accepted until these clauses existed, because the earlier
-wording only checked whether the issue text itself described one bounded task, not
-whether its history or authorship revealed unresolved risk the text alone didn't show.
+From `rubric.md`, the "Scope fits a newcomer" row's pass condition, clause (d), quoted
+exactly as it is currently written: "the issue has 2 or more closed/unmerged linked PRs
+recorded against it, showing prior contributors already tried and abandoned it — a sign
+of real unresolved difficulty behind a friendly label". This clause (and sibling clause
+(e), the un-endorsed-feature-request rule) were added after the first full run scored
+the `scope` category 2/4: `issue-15` (years of design debate plus two closed, abandoned
+linked PRs) and `issue-20` (an unendorsed feature request opened by a bot, with a hidden
+product decision) were both wrongly accepted until these clauses existed, because the
+earlier wording only checked whether the issue text itself described one bounded task,
+not whether its history or authorship revealed unresolved risk the text alone didn't
+show.
 
 **Trade-offs**
 
